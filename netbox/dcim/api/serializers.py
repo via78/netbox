@@ -619,6 +619,24 @@ class PlatformSerializer(NetBoxModelSerializer):
         ]
 
 
+class CustomDeviceListSerializer(serializers.ListSerializer):
+    def validate(self, attrs):
+        validated_data = super().validate(attrs)
+        devices = [Device(**item) for item in validated_data]
+        # break these up into racks for space validation
+        racks = {}
+        for device in devices:
+            if device.rack:
+                if device.rack not in racks:
+                    racks[device.rack] = []
+                racks[device.rack].append(device)
+
+        for rack, devices in racks.items():
+            units = rack.check_for_space(devices)
+
+        return validated_data
+
+
 class DeviceSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='dcim-api:device-detail')
     device_type = NestedDeviceTypeSerializer()
@@ -655,6 +673,7 @@ class DeviceSerializer(NetBoxModelSerializer):
             'primary_ip4', 'primary_ip6', 'cluster', 'virtual_chassis', 'vc_position', 'vc_priority', 'comments',
             'local_context_data', 'tags', 'custom_fields', 'created', 'last_updated',
         ]
+        list_serializer_class = CustomDeviceListSerializer
 
     @swagger_serializer_method(serializer_or_field=NestedDeviceSerializer)
     def get_parent_device(self, obj):

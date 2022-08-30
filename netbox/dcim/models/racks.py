@@ -332,7 +332,7 @@ class Rack(NetBoxModel):
         :param exclude: List of devices IDs to exclude (useful when moving a device within a rack)
         """
         if exclude is not None:
-            devices = devices.exclude(pk__in=exclude)
+            devices = [device for device in devices if device.pk not in exclude]
 
         # Initialize the rack unit skeleton
         units = list(self.units)
@@ -369,7 +369,7 @@ class Rack(NetBoxModel):
         :param exclude: List of devices IDs to exclude (useful when moving a device within a rack)
         """
         # Gather all devices which consume U space within the rack
-        devices = self.get_all_devices()
+        devices = list(self.get_all_devices())
         return self.check_available_units(devices, u_height, rack_face, exclude)
 
     def check_for_space(self, devices):
@@ -377,13 +377,13 @@ class Rack(NetBoxModel):
         for device in devices:
             rack_face = device.face if not device.device_type.is_full_depth else None
             exclude_list = [device.pk] if device.pk else []
-            available_units = rack.check_available_units(
+            available_units = self.check_available_units(
                 rack_devices, u_height=device.device_type.u_height, rack_face=rack_face, exclude=exclude_list
             )
             if device.position and device.position not in available_units:
                 raise ValidationError({
-                    'position': f"U{self.position} is already occupied or does not have sufficient space to "
-                                f"accommodate this device type: {self.device_type} ({self.device_type.u_height}U)"
+                    'position': f"U{device.position} is already occupied or does not have sufficient space to "
+                                f"accommodate this device type: {device.device_type} ({device.device_type.u_height}U)"
                 })
 
             rack_devices.append(device)

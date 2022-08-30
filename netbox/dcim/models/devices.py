@@ -758,7 +758,7 @@ class Device(NetBoxModel, ConfigContextModel):
                     })
 
                 # Validate rack space
-                rack.check_for_space([self, ])
+                self.rack.check_for_space([self, ])
 
             except DeviceType.DoesNotExist:
                 pass
