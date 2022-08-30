@@ -758,16 +758,7 @@ class Device(NetBoxModel, ConfigContextModel):
                     })
 
                 # Validate rack space
-                rack_face = self.face if not self.device_type.is_full_depth else None
-                exclude_list = [self.pk] if self.pk else []
-                available_units = self.rack.get_available_units(
-                    u_height=self.device_type.u_height, rack_face=rack_face, exclude=exclude_list
-                )
-                if self.position and self.position not in available_units:
-                    raise ValidationError({
-                        'position': f"U{self.position} is already occupied or does not have sufficient space to "
-                                    f"accommodate this device type: {self.device_type} ({self.device_type.u_height}U)"
-                    })
+                rack.check_for_space([self, ])
 
             except DeviceType.DoesNotExist:
                 pass

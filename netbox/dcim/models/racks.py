@@ -319,18 +319,18 @@ class Rack(NetBoxModel):
 
         return [u for u in elevation.values()]
 
-    def get_available_units(self, u_height=1, rack_face=None, exclude=None):
+    def check_available_units(self, devices, u_height=1, rack_face=None, exclude=None):
         """
         Return a list of units within the rack available to accommodate a device of a given U height (default 1).
         Optionally exclude one or more devices when calculating empty units (needed when moving a device from one
-        position to another within a rack).
+        position to another within a rack). This is used to check when adding multiple devices to check
+        against each other and the rack, for single device use get_available_units
 
+        :param devices: list of devices currently within the rack
         :param u_height: Minimum number of contiguous free units required
         :param rack_face: The face of the rack (front or rear) required; 'None' if device is full depth
         :param exclude: List of devices IDs to exclude (useful when moving a device within a rack)
         """
-        # Gather all devices which consume U space within the rack
-        devices = self.devices.prefetch_related('device_type').filter(position__gte=1)
         if exclude is not None:
             devices = devices.exclude(pk__in=exclude)
 
@@ -354,6 +354,39 @@ class Rack(NetBoxModel):
                 available_units.append(u)
 
         return list(reversed(available_units))
+
+    def get_all_devices(self):
+        return self.devices.prefetch_related('device_type').filter(position__gte=1)
+
+    def get_available_units(self, u_height=1, rack_face=None, exclude=None):
+        """
+        Return a list of units within the rack available to accommodate a device of a given U height (default 1).
+        Optionally exclude one or more devices when calculating empty units (needed when moving a device from one
+        position to another within a rack).
+
+        :param u_height: Minimum number of contiguous free units required
+        :param rack_face: The face of the rack (front or rear) required; 'None' if device is full depth
+        :param exclude: List of devices IDs to exclude (useful when moving a device within a rack)
+        """
+        # Gather all devices which consume U space within the rack
+        devices = self.get_all_devices()
+        return self.check_available_units(devices, u_height, rack_face, exclude)
+
+    def check_for_space(self, devices):
+        rack_devices = list(self.get_all_devices())
+        for device in devices:
+            rack_face = device.face if not device.device_type.is_full_depth else None
+            exclude_list = [device.pk] if device.pk else []
+            available_units = rack.check_available_units(
+                rack_devices, u_height=device.device_type.u_height, rack_face=rack_face, exclude=exclude_list
+            )
+            if device.position and device.position not in available_units:
+                raise ValidationError({
+                    'position': f"U{self.position} is already occupied or does not have sufficient space to "
+                                f"accommodate this device type: {self.device_type} ({self.device_type.u_height}U)"
+                })
+
+            rack_devices.append(device)
 
     def get_reserved_units(self):
         """
