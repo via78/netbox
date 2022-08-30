@@ -319,7 +319,7 @@ class Rack(NetBoxModel):
 
         return [u for u in elevation.values()]
 
-    def check_available_units(self, devices, u_height=1, rack_face=None, exclude=None):
+    def check_available_units(self, devices, u_height=1, rack_face=None, exclude=[]):
         """
         Return a list of units within the rack available to accommodate a device of a given U height (default 1).
         Optionally exclude one or more devices when calculating empty units (needed when moving a device from one
@@ -331,21 +331,19 @@ class Rack(NetBoxModel):
         :param rack_face: The face of the rack (front or rear) required; 'None' if device is full depth
         :param exclude: List of devices IDs to exclude (useful when moving a device within a rack)
         """
-        if exclude is not None:
-            devices = [device for device in devices if device.pk not in exclude]
-
         # Initialize the rack unit skeleton
         units = list(self.units)
 
         # Remove units consumed by installed devices
         for d in devices:
-            if rack_face is None or d.face == rack_face or d.device_type.is_full_depth:
-                for u in drange(d.position, d.position + d.device_type.u_height, 0.5):
-                    try:
-                        units.remove(u)
-                    except ValueError:
-                        # Found overlapping devices in the rack!
-                        pass
+            if d.pk not in exclude:
+                if rack_face is None or d.face == rack_face or d.device_type.is_full_depth:
+                    for u in drange(d.position, d.position + d.device_type.u_height, 0.5):
+                        try:
+                            units.remove(u)
+                        except ValueError:
+                            # Found overlapping devices in the rack!
+                            pass
 
         # Remove units without enough space above them to accommodate a device of the specified height
         available_units = []
@@ -358,7 +356,7 @@ class Rack(NetBoxModel):
     def get_all_devices(self):
         return self.devices.prefetch_related('device_type').filter(position__gte=1)
 
-    def get_available_units(self, u_height=1, rack_face=None, exclude=None):
+    def get_available_units(self, u_height=1, rack_face=None, exclude=[]):
         """
         Return a list of units within the rack available to accommodate a device of a given U height (default 1).
         Optionally exclude one or more devices when calculating empty units (needed when moving a device from one
