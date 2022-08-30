@@ -626,7 +626,7 @@ class CustomDeviceListSerializer(serializers.ListSerializer):
         # break these up into racks for space validation
         racks = {}
         for device in devices:
-            if device.rack:
+            if device.rack and device.position is not None:
                 if device.rack not in racks:
                     racks[device.rack] = []
                 racks[device.rack].append(device)
