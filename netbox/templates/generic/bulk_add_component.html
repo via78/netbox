@@ -41,7 +41,7 @@
             <div class="col col-md-12 col-lg-10 offset-lg-1">
               <div class="card">
                   <h5 class="card-header">{{ model_name|title }} to Add</h5>
-                  <div class="card-body">
+                  <div class="card-body overflow-auto">
                       {% for field in form.visible_fields %}
                           {% render_field field %}
                       {% endfor %}

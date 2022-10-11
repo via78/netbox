@@ -14,7 +14,7 @@
     <div class="col col-md-6">
       <div class="card">
         <h5 class="card-header">Module Bay</h5>
-        <div class="card-body">
+        <div class="card-body overflow-auto">
           <table class="table table-hover attr-table">
             <tr>
               <th scope="row">Device</th>
@@ -48,7 +48,7 @@
       {% include 'inc/panels/custom_fields.html' %}
       <div class="card">
         <h5 class="card-header">Installed Module</h5>
-        <div class="card-body">
+        <div class="card-body overflow-auto">
         {% if object.installed_module %}
           {% with module=object.installed_module %}
             <table class="table table-hover attr-table">

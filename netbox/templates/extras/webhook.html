@@ -9,7 +9,7 @@
       <h5 class="card-header">
         Webhook
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         <table class="table table-hover attr-table">
           <tr>
             <th scope="row">Name</th>
@@ -26,7 +26,7 @@
       <h5 class="card-header">
         Events
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         <table class="table table-hover attr-table">
           <tr>
             <th scope="row">Create</th>
@@ -47,7 +47,7 @@
       <h5 class="card-header">
         HTTP Request
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         <table class="table table-hover attr-table">
           <tr>
             <th scope="row">HTTP Method</th>
@@ -72,7 +72,7 @@
       <h5 class="card-header">
         SSL
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         <table class="table table-hover attr-table">
           <tr>
             <th scope="row">SSL Verification</th>
@@ -92,7 +92,7 @@
       <h5 class="card-header">
         Assigned Models
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         <table class="table table-hover attr-table">
           {% for ct in object.content_types.all %}
             <tr>
@@ -106,7 +106,7 @@
       <h5 class="card-header">
         Conditions
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         {% if object.conditions %}
           <pre>{{ object.conditions|json }}</pre>
         {% else %}
@@ -118,7 +118,7 @@
       <h5 class="card-header">
         Additional Headers
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         {% if object.additional_headers %}
           <pre>{{ object.additional_headers }}</pre>
         {% else %}
@@ -130,7 +130,7 @@
       <h5 class="card-header">
         Body Template
       </h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         {% if object.body_template %}
           <pre>{{ object.body_template }}</pre>
         {% else %}

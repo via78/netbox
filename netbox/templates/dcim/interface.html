@@ -24,7 +24,7 @@
     <div class="col col-md-6">
       <div class="card">
         <h5 class="card-header">Interface</h5>
-        <div class="card-body">
+        <div class="card-body overflow-auto">
           <table class="table table-hover">
             <tr>
               <th scope="row">Device</th>
@@ -90,7 +90,7 @@
       </div>
       <div class="card">
         <h5 class="card-header">Related Interfaces</h5>
-        <div class="card-body">
+        <div class="card-body overflow-auto">
           <table class="table table-hover">
             <tr>
               <th scope="row">Parent</th>
@@ -118,7 +118,7 @@
     <div class="col col-md-6">
       <div class="card">
         <h5 class="card-header">Addressing</h5>
-        <div class="card-body">
+        <div class="card-body overflow-auto">
           <table class="table table-hover">
             <tr>
               <th scope="row">MAC Address</th>
@@ -138,7 +138,7 @@
       {% if not object.is_virtual %}
         <div class="card">
           <h5 class="card-header">Connection</h5>
-          <div class="card-body">
+          <div class="card-body overflow-auto">
             {% if object.mark_connected %}
               <div class="text-muted">
                 <span class="text-success"><i class="mdi mdi-check-bold"></i></span> Marked as Connected
@@ -209,7 +209,7 @@
       {% if object.is_wireless %}
         <div class="card">
           <h5 class="card-header">Wireless</h5>
-          <div class="card-body">
+          <div class="card-body overflow-auto">
             {% with peer=object.connected_endpoint %}
               <table class="table table-hover">
                 <thead>
@@ -281,7 +281,7 @@
         </div>
         <div class="card">
           <h5 class="card-header">Wireless LANs</h5>
-          <div class="card-body">
+          <div class="card-body overflow-auto">
             <table class="table table-hover table-headings">
               <thead>
                 <tr>
@@ -308,7 +308,7 @@
       {% if object.is_lag %}
         <div class="card">
           <h5 class="card-header">LAG Members</h5>
-          <div class="card-body">
+          <div class="card-body overflow-auto">
             <table class="table table-hover table-headings">
               <thead>
                 <tr>

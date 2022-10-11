@@ -15,7 +15,7 @@
           <div class="col col-md-5">
               <div class="card h-100">
                   <h5 class="card-header offset-sm-3">A Side</h5>
-                  <div class="card-body">
+                  <div class="card-body overflow-auto">
                       {% render_field form.termination_a_region %}
                       {% render_field form.termination_a_sitegroup %}
                       {% render_field form.termination_a_site %}
@@ -45,7 +45,7 @@
           <div class="col col-md-5">
               <div class="card h-100">
                   <h5 class="card-header offset-sm-3">B Side</h5>
-                  <div class="card-body">
+                  <div class="card-body overflow-auto">
                       {% render_field form.termination_b_region %}
                       {% render_field form.termination_b_sitegroup %}
                       {% render_field form.termination_b_site %}
@@ -74,7 +74,7 @@
         <div class="col col-md-8">
           <div class="card">
             <h5 class="card-header offset-sm-3">Cable</h5>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
               {% render_field form.status %}
               {% render_field form.type %}
               {% render_field form.tenant_group %}

@@ -8,7 +8,7 @@
         {% csrf_token %}
         <div class="card">
             <h5 class="card-header">Add New Member</h5>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 {% render_form member_select_form %}
                 {% render_form membership_form %}
             </div>

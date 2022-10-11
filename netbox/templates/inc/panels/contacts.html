@@ -2,7 +2,7 @@
 
 <div class="card">
   <h5 class="card-header">Contacts</h5>
-  <div class="card-body">
+  <div class="card-body overflow-auto">
     {% with contacts=object.contacts.all %}
       {% if contacts.exists %}
         <table class="table table-hover">

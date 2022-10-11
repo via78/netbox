@@ -4,7 +4,7 @@
   {% if custom_fields %}
     <div class="card">
       <h5 class="card-header">Custom Fields</h5>
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         {% for group_name, fields in custom_fields.items %}
           {% if group_name %}
             <h6>{{ group_name }}</h6>

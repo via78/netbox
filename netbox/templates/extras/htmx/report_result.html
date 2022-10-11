@@ -10,7 +10,7 @@
 {% if result.completed %}
   <div class="card">
     <h5 class="card-header">Report Methods</h5>
-    <div class="card-body">
+    <div class="card-body overflow-auto">
       <table class="table table-hover">
         {% for method, data in result.data.items %}
           <tr>
@@ -28,7 +28,7 @@
   </div>
   <div class="card">
     <h5 class="card-header">Report Results</h5>
-    <div class="card-body">
+    <div class="card-body overflow-auto">
       <table class="table table-hover report">
         <thead>
           <tr class="table-headings">

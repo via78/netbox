@@ -72,7 +72,7 @@ Context:
         <div id="select-all-box" class="d-none card noprint">
           <form method="post" class="form col-md-12">
             {% csrf_token %}
-            <div class="card-body">
+            <div class="card-body overflow-auto">
               <div class="float-end">
                 {% if 'bulk_edit' in actions %}
                   {% bulk_edit_button model query_params=request.GET %}
@@ -106,7 +106,7 @@ Context:
             {% endif %}
 
         <div class="card">
-          <div class="card-body" id="object_list">
+          <div class="card-body overflow-auto" id="object_list">
             {% include 'htmx/table.html' %}
           </div>
         </div>

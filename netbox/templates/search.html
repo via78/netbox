@@ -45,7 +45,7 @@
                         <h5 class="card-header">
                             Search Results
                         </h5>
-                        <div class="card-body">
+                        <div class="card-body overflow-auto">
                             <div class="list-group list-group-flush">
                                 {% for obj_type in results %}
                                     <a href="#{{ obj_type.name|lower }}" class="list-group-item">
@@ -71,7 +71,7 @@
                         <h5 class="card-header">
                             Search
                         </h5>
-                        <div class="card-body">
+                        <div class="card-body overflow-auto">
                             {% render_form form %}
                         </div>
                         <div class="card-footer text-end">

@@ -27,7 +27,7 @@
             <h5 class="card-header">
                 Change
             </h5>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 <table class="table table-hover attr-table">
                     <tr>
                         <th scope="row">Time</th>
@@ -90,7 +90,7 @@
                     </a>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 {% if diff_added == diff_removed %}
                     <span class="text-muted" style="margin-left: 10px;">
                         {% if object.action == 'create' %}
@@ -115,7 +115,7 @@
             <h5 class="card-header">
                 Pre-Change Data
             </h5>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
             {% if object.prechange_data %}
                 <pre class="change-data">{% for k, v in object.prechange_data.items %}{% spaceless %}
                     <span{% if k in diff_removed %} class="removed"{% endif %}>{{ k }}: {{ v|json }}</span>
@@ -134,7 +134,7 @@
             <h5 class="card-header">
                 Post-Change Data
             </h5>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 {% if object.postchange_data %}
                     <pre class="change-data">{% for k, v in object.postchange_data.items %}{% spaceless %}
                         <span{% if k in diff_added %} class="added"{% endif %}>{{ k }}: {{ v|json }}</span>
