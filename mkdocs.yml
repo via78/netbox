@@ -117,6 +117,7 @@ nav:
         - Webhooks: 'integrations/webhooks.md'
         - NAPALM: 'integrations/napalm.md'
         - Prometheus Metrics: 'integrations/prometheus-metrics.md'
+        - Health Checks: 'integrations/health-check.md'
     - Plugins:
         - Using Plugins: 'plugins/index.md'
         - Developing Plugins:

@@ -22,6 +22,10 @@ django-filter
 # https://github.com/flavors/django-graphiql-debug-toolbar/
 django-graphiql-debug-toolbar
 
+# Runs health check on installed applications
+# https://github.com/revsys/django-health-check
+django-health-check
+
 # Modified Preorder Tree Traversal (recursive nesting of objects)
 # https://github.com/django-mptt/django-mptt
 django-mptt

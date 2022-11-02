@@ -81,6 +81,7 @@ _patterns = [
     path('admin/background-tasks/', include('django_rq.urls')),
     path('admin/plugins/', include(plugin_admin_patterns)),
     path('admin/', admin_site.urls),
+    path('healthcheck/', include('health_check.urls')),
 ]
 
 
