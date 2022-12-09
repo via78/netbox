@@ -465,6 +465,7 @@ class CablePath(models.Model):
         if not terminations:
             return None
 
+        terminations = [t for t in terminations if t.link is None]
         # Ensure all originating terminations are attached to the same link
         if len(terminations) > 1:
             assert all(t.link == terminations[0].link for t in terminations[1:])
