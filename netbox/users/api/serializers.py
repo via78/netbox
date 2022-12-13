@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group, User
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
 
 from netbox.api.fields import ContentTypeField, IPNetworkSerializer, SerializedPKRelatedField
 from netbox.api.serializers import ValidatedModelSerializer
@@ -78,6 +79,18 @@ class TokenSerializer(ValidatedModelSerializer):
             'id', 'url', 'display', 'user', 'created', 'expires', 'last_used', 'key', 'write_enabled', 'description',
             'allowed_ips',
         )
+
+    def validate(self, data):
+        data = super().validate(data)
+        user_data = data.get("user")
+        if user_data:
+            request = self.context.get("request")
+            if request and hasattr(request, "user"):
+                user = request.user
+                if not user.is_superuser:
+                    if user.id != user_data.id:
+                        raise PermissionDenied
+        return data
 
     def to_internal_value(self, data):
         if 'key' not in data:
