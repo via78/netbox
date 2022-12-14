@@ -299,9 +299,8 @@ def prepare_cloned_fields(instance):
         else:
             params.append((key, ''))
 
-    query_str = urlencode(params)
     # Return a QueryDict with the parameters
-    return QueryDict(query_str, mutable=True)
+    return QueryDict(urlencode(params), mutable=True)
 
 
 def shallow_compare_dict(source_dict, destination_dict, exclude=None):
