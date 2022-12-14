@@ -87,9 +87,8 @@ class TokenSerializer(ValidatedModelSerializer):
             request = self.context.get("request")
             if request and hasattr(request, "user"):
                 user = request.user
-                if not user.is_superuser:
-                    if user.id != user_data.id:
-                        raise PermissionDenied
+                if user.id != user_data.id and not user.is_superuser:
+                    raise PermissionDenied
         return data
 
     def to_internal_value(self, data):
