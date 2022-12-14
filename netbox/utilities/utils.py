@@ -16,6 +16,7 @@ from dcim.choices import CableLengthUnitChoices
 from extras.plugins import PluginConfig
 from extras.utils import is_taggable
 from netbox.config import get_config
+from urllib.parse import urlencode
 from utilities.constants import HTTP_REQUEST_META_SAFE_COPY
 
 
@@ -298,8 +299,9 @@ def prepare_cloned_fields(instance):
         else:
             params.append((key, ''))
 
+    query_str = urlencode(params)
     # Return a QueryDict with the parameters
-    return QueryDict('&'.join([f'{k}={v}' for k, v in params]), mutable=True)
+    return QueryDict(query_str, mutable=True)
 
 
 def shallow_compare_dict(source_dict, destination_dict, exclude=None):
