@@ -55,14 +55,18 @@ class RackTypeChoices(ChoiceSet):
     TYPE_4POST = '4-post-frame'
     TYPE_CABINET = '4-post-cabinet'
     TYPE_WALLFRAME = 'wall-frame'
+    TYPE_WALLFRAME_VERTICAL = 'wall-frame-vertical'
     TYPE_WALLCABINET = 'wall-cabinet'
+    TYPE_WALLCABINET_VERTICAL = 'wall-cabinet-vertical'
 
     CHOICES = (
         (TYPE_2POST, '2-post frame'),
         (TYPE_4POST, '4-post frame'),
         (TYPE_CABINET, '4-post cabinet'),
         (TYPE_WALLFRAME, 'Wall-mounted frame'),
+        (TYPE_WALLFRAME_VERTICAL, 'Wall-mounted frame (vertical)'),
         (TYPE_WALLCABINET, 'Wall-mounted cabinet'),
+        (TYPE_WALLCABINET_VERTICAL, 'Wall-mounted cabinet (vertical)'),
     )
 
 
@@ -192,6 +196,30 @@ class DeviceAirflowChoices(ChoiceSet):
         (AIRFLOW_PASSIVE, 'Passive'),
         (AIRFLOW_MIXED, 'Mixed'),
     )
+
+
+#
+# Modules
+#
+
+class ModuleStatusChoices(ChoiceSet):
+    key = 'Module.status'
+
+    STATUS_OFFLINE = 'offline'
+    STATUS_ACTIVE = 'active'
+    STATUS_PLANNED = 'planned'
+    STATUS_STAGED = 'staged'
+    STATUS_FAILED = 'failed'
+    STATUS_DECOMMISSIONING = 'decommissioning'
+
+    CHOICES = [
+        (STATUS_OFFLINE, 'Offline', 'gray'),
+        (STATUS_ACTIVE, 'Active', 'green'),
+        (STATUS_PLANNED, 'Planned', 'cyan'),
+        (STATUS_STAGED, 'Staged', 'blue'),
+        (STATUS_FAILED, 'Failed', 'red'),
+        (STATUS_DECOMMISSIONING, 'Decommissioning', 'yellow'),
+    ]
 
 
 #
@@ -1339,6 +1367,24 @@ class CableLengthUnitChoices(ChoiceSet):
     )
 
 
+class WeightUnitChoices(ChoiceSet):
+
+    # Metric
+    UNIT_KILOGRAM = 'kg'
+    UNIT_GRAM = 'g'
+
+    # Imperial
+    UNIT_POUND = 'lb'
+    UNIT_OUNCE = 'oz'
+
+    CHOICES = (
+        (UNIT_KILOGRAM, 'Kilograms'),
+        (UNIT_GRAM, 'Grams'),
+        (UNIT_POUND, 'Pounds'),
+        (UNIT_OUNCE, 'Ounces'),
+    )
+
+
 #
 # CableTerminations
 #
@@ -1406,3 +1452,20 @@ class PowerFeedPhaseChoices(ChoiceSet):
         (PHASE_SINGLE, 'Single phase'),
         (PHASE_3PHASE, 'Three-phase'),
     )
+
+
+#
+# VDC
+#
+class VirtualDeviceContextStatusChoices(ChoiceSet):
+    key = 'VirtualDeviceContext.status'
+
+    STATUS_ACTIVE = 'active'
+    STATUS_PLANNED = 'planned'
+    STATUS_OFFLINE = 'offline'
+
+    CHOICES = [
+        (STATUS_ACTIVE, 'Active', 'green'),
+        (STATUS_PLANNED, 'Planned', 'cyan'),
+        (STATUS_OFFLINE, 'Offline', 'red'),
+    ]
