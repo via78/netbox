@@ -56,5 +56,6 @@ def rebuild_paths(terminations):
 
         with transaction.atomic():
             for cp in cable_paths:
+                cp.dump()
                 cp.delete()
                 create_cablepath(cp.origins)

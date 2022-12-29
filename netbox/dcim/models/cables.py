@@ -438,6 +438,12 @@ class CablePath(models.Model):
     def __str__(self):
         return f"Path #{self.pk}: {len(self.path)} hops"
 
+    def dump(self):
+        print("")
+        print(f"Cable Path: {self}")
+        print(f"path: {self.path}")
+        print(f"_nodes: {self._nodes}")
+
     def save(self, *args, **kwargs):
 
         # Save the flattened nodes list
@@ -505,7 +511,7 @@ class CablePath(models.Model):
 
         # Ensure all originating terminations are attached to the same link
         if len(terminations) > 1:
-            print(f"terminations[0].link: {terminations[0].link}")
+            print(f"terminations[0]: {terminations[0]} terminations[0].link: {terminations[0].link}")
             for t in terminations[1:]:
                 print(f"t: {t} t.link: {t.link}")
             assert all(t.link == terminations[0].link for t in terminations[1:])
