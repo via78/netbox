@@ -80,8 +80,8 @@ class ComponentModel(NetBoxModel):
 
     def __str__(self):
         if self.label:
-            return f"{self.name} ({self.label})"
-        return self.name
+            return f"{self.pk}: {self.name} ({self.label})"
+        return f"{self.pk}: {self.name}"
 
     def to_objectchange(self, action):
         objectchange = super().to_objectchange(action)
@@ -858,6 +858,10 @@ class Interface(ModularComponentModel, BaseInterface, CabledObjectModel, PathEnd
     @property
     def l2vpn_termination(self):
         return self.l2vpn_terminations.first()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        print(f"Interface: {self} link: {self.link}")
 
 
 #
