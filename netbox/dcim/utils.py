@@ -45,7 +45,7 @@ def create_cablepath(terminations):
         cp.save()
 
 
-def rebuild_paths(terminations):
+def rebuild_paths(terminations, endpoint=False):
     """
     Rebuild all CablePaths which traverse the specified nodes.
     """
@@ -58,4 +58,4 @@ def rebuild_paths(terminations):
             for cp in cable_paths:
                 cp.dump()
                 cp.delete()
-                create_cablepath(cp.origins)
+                create_cablepath(terminations if endpoint else cp.origins)
