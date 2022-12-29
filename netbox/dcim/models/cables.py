@@ -119,7 +119,7 @@ class Cable(PrimaryModel):
 
     @a_terminations.setter
     def a_terminations(self, value):
-        if self.a_terminations != list(value):
+        if not self.pk or self.a_terminations != list(value):
             self._terminations_modified = True
         self._a_terminations = value
 
@@ -134,7 +134,7 @@ class Cable(PrimaryModel):
 
     @b_terminations.setter
     def b_terminations(self, value):
-        if self.b_terminations != list(value):
+        if not self.pk or self.b_terminations != list(value):
             self._terminations_modified = True
         self._b_terminations = value
 
