@@ -119,10 +119,6 @@ class Cable(PrimaryModel):
 
     @a_terminations.setter
     def a_terminations(self, value):
-        if self.pk:
-            print(f"a_terminations setter a_terminations: {self.a_terminations} value: {value}")
-        else:
-            print("a_terminations setter no pk")
         self._terminations_modified = True
         self._a_terminations = value
 
@@ -137,15 +133,10 @@ class Cable(PrimaryModel):
 
     @b_terminations.setter
     def b_terminations(self, value):
-        if self.pk:
-            print(f"b_terminations setter b_terminations: {self.b_terminations} value: {value}")
-        else:
-            print("b_terminations setter no pk")
         self._terminations_modified = True
         self._b_terminations = value
 
     def clean(self):
-        print("cable clean")
         super().clean()
 
         # Validate length and length_unit
@@ -177,31 +168,7 @@ class Cable(PrimaryModel):
             for termination in self.b_terminations:
                 CableTermination(cable=self, cable_end='B', termination=termination).clean()
 
-    def _print_terminations(self, terminations):
-        if len(terminations) > 1:
-            print(f"terminations[0].link: {terminations[0].link}")
-        for termination in terminations:
-            print(f"{termination.id}: {termination}")
-            print(f"termination: {termination} termination.link: {termination.link}")
-
-    def print_a_terminations(self):
-        print("--- a termination ---")
-        self._print_terminations(self.a_terminations)
-
-    def print_b_terminations(self):
-        print("--- b termination ---")
-        self._print_terminations(self.b_terminations)
-
-    def print_paths(self):
-        print("--- cable paths ---")
-        for cablepath in CablePath.objects.filter(_nodes__contains=self):
-            print(f"{cablepath} - {cablepath.path}")
-
     def save(self, *args, **kwargs):
-        print("cable save")
-        self.print_a_terminations()
-        self.print_b_terminations()
-        self.print_paths()
         _created = self.pk is None
 
         # Store the given length (if any) in meters for use in database ordering
@@ -238,11 +205,6 @@ class Cable(PrimaryModel):
                     CableTermination(cable=self, cable_end='B', termination=termination).save()
 
         trace_paths.send(Cable, instance=self, created=_created)
-
-        print("cable save end")
-        self.print_a_terminations()
-        self.print_b_terminations()
-        self.print_paths()
 
     def get_status_color(self):
         return LinkStatusChoices.colors.get(self.status)
@@ -351,7 +313,6 @@ class CableTermination(models.Model):
         )
 
     def delete(self, *args, **kwargs):
-        print("cable termination delete")
         # Delete the cable association on the terminating object
         termination_model = self.termination._meta.model
         termination_model.objects.filter(pk=self.termination_id).update(
@@ -438,12 +399,6 @@ class CablePath(models.Model):
     def __str__(self):
         return f"Path #{self.pk}: {len(self.path)} hops"
 
-    def dump(self):
-        print("")
-        print(f"Cable Path: {self}")
-        print(f"path: {self.path}")
-        print(f"_nodes: {self._nodes}")
-
     def save(self, *args, **kwargs):
 
         # Save the flattened nodes list
@@ -511,9 +466,6 @@ class CablePath(models.Model):
 
         # Ensure all originating terminations are attached to the same link
         if len(terminations) > 1:
-            print(f"terminations[0]: {terminations[0]} terminations[0].link: {terminations[0].link}")
-            for t in terminations[1:]:
-                print(f"t: {t} t.link: {t.link}")
             assert all(t.link == terminations[0].link for t in terminations[1:])
 
         path = []
@@ -657,8 +609,6 @@ class CablePath(models.Model):
         """
         Retrace the path from the currently-defined originating termination(s)
         """
-        print(f"retrace for cable path: {self.id}")
-        print(f"self.origins: {self.origins}")
         _new = self.from_origin(self.origins)
         if _new:
             self.path = _new.path

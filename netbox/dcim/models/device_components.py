@@ -859,10 +859,6 @@ class Interface(ModularComponentModel, BaseInterface, CabledObjectModel, PathEnd
     def l2vpn_termination(self):
         return self.l2vpn_terminations.first()
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        print(f"Interface: {self} link: {self.link}")
-
 
 #
 # Pass-through ports
