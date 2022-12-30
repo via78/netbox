@@ -313,6 +313,7 @@ class CableTermination(models.Model):
         )
 
     def delete(self, *args, **kwargs):
+
         # Delete the cable association on the terminating object
         termination_model = self.termination._meta.model
         termination_model.objects.filter(pk=self.termination_id).update(
