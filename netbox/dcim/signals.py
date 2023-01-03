@@ -142,9 +142,6 @@ def nullify_connected_endpoints(instance, **kwargs):
     model = instance.termination_type.model_class()
     model.objects.filter(pk=instance.termination_id).update(cable=None, cable_end='')
 
-    # for cablepath in CablePath.objects.filter(_nodes__contains=instance.cable):
-    #     cablepath.retrace()
-
 
 @receiver(post_save, sender=FrontPort)
 def extend_rearport_cable_paths(instance, created, raw, **kwargs):
