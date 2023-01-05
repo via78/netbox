@@ -54,6 +54,7 @@ sudo ln -sfn /opt/netbox-X.Y.Z/ /opt/netbox
 ```
 
 Copy `local_requirements.txt`, `configuration.py`, and `ldap_config.py` (if present) from the current installation to the new version:
+(the ntbox version hier ist die current version , do not choose latest version that you dowlanded above) 
 
 ```no-highlight
 sudo cp /opt/netbox-X.Y.Z/local_requirements.txt /opt/netbox/
